@@ -1,5 +1,4 @@
 import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -41,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   )..repeat();
 
   bool _first = true;
+  String _name = 'John'; // Variable para el nombre
 
   void _incrementCounter() {
     setState(() {
@@ -66,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            // Widget Row con Iconos 'check'
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -87,18 +86,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 ),
               ],
             ),
-            // Widget AnimatedAlign
             AnimatedAlign(
               alignment: _animateAlign ? Alignment.topRight : Alignment.bottomLeft,
               duration: const Duration(seconds: 1),
               curve: Curves.fastOutSlowIn,
               child: const FlutterLogo(size: 50.0),
             ),
-            // Widget AnimatedBuilder y Texto explicativo
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Widget AnimatedBuilder
                 AnimatedBuilder(
                   animation: _builderController,
                   child: Container(
@@ -119,7 +115,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 const SizedBox(
                   width: 16.0,
                 ),
-                // Widget Imagen con NetworkImage
                 Image(
                   image: NetworkImage(
                       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
@@ -128,7 +123,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 ),
               ],
             ),
-            // Widget AnimatedContainer
             AnimatedContainer(
               width: _animateAlign ? 200.0 : 100.0,
               height: _animateAlign ? 100.0 : 200.0,
@@ -138,7 +132,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               curve: Curves.fastOutSlowIn,
               child: const FlutterLogo(size: 75),
             ),
-            // Widget AnimatedCrossFade
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -155,7 +148,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                     _first ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               ),
             ),
-            // Widget AnimatedDefaultTextStyle
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -170,28 +162,110 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 child: const Text('Animated Text'),
               ),
             ),
-            // Widget BackdropFilter
-            Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                Text('0' * 10000),
-                Center(
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ui.ImageFilter.blur(
-                        sigmaX: 5.0,
-                        sigmaY: 5.0,
-                      ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 200.0,
-                        height: 200.0,
-                        child: const Text('Hello World'),
-                      ),
+            ClipRect(
+              child: BackdropFilter(
+                filter: ui.ImageFilter.blur(
+                  sigmaX: 5.0,
+                  sigmaY: 5.0,
+                ),
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 200.0,
+                  height: 200.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'Hello, $_name! How are you?',
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
+              ),
+            ),
+            RichText(
+              text: TextSpan(
+                text: 'Hello ',
+                style: DefaultTextStyle.of(context).style,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '$_name',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+                  ),
+                  TextSpan(text: '! How are you?'),
+                ],
+              ),
+            ),
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text('Hello World!'),
+              ),
+            ),
+            const RotatedBox(
+              quarterTurns: 3,
+              child: Text('Hello World!'),
+            ),
+            ClipRect(
+              child: Align(
+                alignment: Alignment.topLeft,
+                heightFactor: 0.5,
+                child: Image.network(
+                  'https://example.com/userAvatar.jpg',
+                  width: 100.0,
+                  height: 100.0,
+                ),
+              ),
+            ),
+            Opacity(
+              opacity: _visible ? 1.0 : 0.0,
+              child: const Text("Now you see me, now you don't!"),
+            ),
+
+            // Nuevo widget AspectRatio
+            Container(
+              color: Colors.blue,
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: 100.0,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Container(
+                  color: Colors.green,
+                ),
+              ),
+            ),
+
+            // Nuevo widget ElevatedButton
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: null,
+                  child: const Text('Disabled'),
+                ),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Enabled'),
+                ),
               ],
+            ),
+
+            // Nuevo widget DecoratedBox
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment(-0.5, -0.6),
+                  radius: 0.15,
+                  colors: <Color>[
+                    Color(0xFFEEEEEE),
+                    Color(0xFF111133),
+                  ],
+                  stops: <double>[0.9, 1.0],
+                ),
+              ),
             ),
           ],
         ),
@@ -205,5 +279,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   }
 
   bool _selectedTextStyle = true;
+  bool _visible = true;
 }
+
 
